@@ -114,6 +114,7 @@ userCustomizableSettings = [
     "structNavTriggersFocusMode",
     "caretNavTriggersFocusMode",
     "layoutMode",
+    "progressBarUpdateType",
 ]
 
 GENERAL_KEYBOARD_LAYOUT_DESKTOP = 1
@@ -152,6 +153,9 @@ SAYALL_STYLE_SENTENCE = 1
 PROGRESS_BAR_ALL         = 0
 PROGRESS_BAR_APPLICATION = 1
 PROGRESS_BAR_WINDOW      = 2
+
+PROGRESS_BAR_TYPE_SPEAK  = 0
+PROGRESS_BAR_TYPE_TICK   = 1
 
 CHAT_SPEAK_ALL             = 0
 CHAT_SPEAK_ALL_IF_FOCUSED  = 1
@@ -255,6 +259,7 @@ mouseDwellMaxDrift         = 3
 
 # Progressbars
 enableProgressBarUpdates   = True
+progressBarUpdateType      = PROGRESS_BAR_TYPE_SPEAK
 progressBarUpdateInterval  = 10
 progressBarVerbosity       = PROGRESS_BAR_APPLICATION
 

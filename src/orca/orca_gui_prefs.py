@@ -1421,6 +1421,13 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
                   guilabels.PROGRESS_BAR_WINDOW]
         self.populateComboBox(comboBox, levels)
         comboBox.set_active(prefs["progressBarVerbosity"])
+        
+        progressBarUpdateTypeComboBox = self.get_widget("progressBarUpdateType")
+        levels = [guilabels.PROGRESS_BAR_TYPE_SPEAK,
+                  guilabels.PROGRESS_BAR_TYPE_TICK]
+        self.populateComboBox(progressBarUpdateTypeComboBox, levels)
+        progressBarUpdateTypeComboBox.set_active(prefs["progressBarUpdateType"])
+
 
         enable = prefs["enableMouseReview"]
         self.get_widget("enableMouseReviewCheckButton").set_active(enable)
@@ -2335,6 +2342,26 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         else:
             self.prefsDict["progressBarVerbosity"] = \
                 settings.PROGRESS_BAR_APPLICATION
+                
+    def progressBarUpdateTypeChanged(self, widget):
+        """Signal handler for the changed signal for the progressBarUpdateType
+           GtkComboBox widget. Set the 'progressBarUpdateType' preference to
+           the new value.
+
+        Arguments:
+        - widget: the component that generated the signal.
+        """
+
+        model = widget.get_model()
+        myIter = widget.get_active_iter()
+        progressBarUpdateType = model[myIter][0]
+        if progressBarUpdateType == guilabels.PROGRESS_BAR_TYPE_SPEAK:
+            self.prefsDict["progressBarUpdateType"] = \
+                settings.PROGRESS_BAR_TYPE_SPEAK
+        elif progressBarUpdateType == guilabels.PROGRESS_BAR_TYPE_TICK:
+            self.prefsDict["progressBarUpdateType"] = \
+                settings.PROGRESS_BAR_TYPE_TICK
+             
 
     def sayAllStyleChanged(self, widget):
         """Signal handler for the "changed" signal for the sayAllStyle

@@ -347,6 +347,16 @@ PROFILE_SAVE_AS_TITLE = _("Save Profile As")
 # name of a new settings profile being saved via the 'Save Profile As' dialog.
 PROFILE_NAME_LABEL = _("_Profile Name:")
 
+
+# Translators: Orca has a setting for announce the percent value of a
+# progress bar every x seconds. So the user know the current progress.
+PROGRESS_BAR_TYPE_SPEAK = _("Speak")
+
+# Translators: Orca has a setting for play a tick (a short soundfrequence) while 
+# a progressbar is open. then highter the progress then highter is the pitch of 
+# that tick
+PROGRESS_BAR_TYPE_TICK = _("Tick")
+
 # Translators: Orca has a setting which determines which progress bar updates
 # should be announced. Choosing "All" means that Orca will present progress bar
 # updates regardless of what application and window they happen to be in.
