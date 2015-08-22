@@ -60,6 +60,7 @@ orca_python_PYTHON = \
 	script_utilities.py \
 	settings.py \
 	settings_manager.py \
+	sound_utils.py \
 	speech.py \
 	spellcheck.py \
 	speechdispatcherfactory.py \
