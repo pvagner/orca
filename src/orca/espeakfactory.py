@@ -1,3 +1,10 @@
+# Orca
+#
+# Copyright 2015 Peter Vágner <pvdeejay@gmail.com>
+# Copyright 2006, 2007, 2008, 2009 Brailcom, o.p.s.
+#
+# Author: Tomas Cerha <cerha@brailcom.org>
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -273,8 +280,6 @@ class SpeechServer(speechserver.SpeechServer):
         # We need to make several replacements.
         text = text.translate({
             0x1: None, # used for embedded commands
-            0x3C: u"&lt;", # <: because of XML
-            0x3E: u"&gt;", # >: because of XML
             0x5B: u" [", # [: [[ indicates phonemes
         })
 
