@@ -187,7 +187,7 @@ activeProfile   = ['Default', 'default']
 profile         = ['Default', 'default']
 
 # Speech
-speechFactoryModules         = ["speechdispatcherfactory"]
+speechFactoryModules         = ["speechdispatcherfactory","espeakfactory"]
 speechServerFactory          = "speechdispatcherfactory"
 speechServerInfo             = None # None means let the factory decide.
 enableSpeech                 = True
