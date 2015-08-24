@@ -199,13 +199,16 @@ class SpeechServer(speechserver.SpeechServer):
 
     def _set_family(self, acss_family):
         familyLocale = acss_family.get(speechserver.VoiceFamily.LOCALE)
+        familyDialect = acss_family.get(speechserver.VoiceFamily.DIALECT)
+        if familyDialect:
+            identifier = '-'.join((familyLocale,familyDialect))
         if not familyLocale:
             import locale
             familyLocale, encoding = locale.getdefaultlocale()
         if familyLocale:
-            lang = familyLocale.split('_')[0]
-            if lang:
-                espeak.set_voice(lang)
+            identifier = familyLocale
+        if identifier:
+            espeak.set_voice(identifier)
         else:
             name = acss_family.get(speechserver.VoiceFamily.NAME)
             if name != self._default_voice_name:
@@ -378,10 +381,17 @@ class SpeechServer(speechserver.SpeechServer):
               speechserver.VoiceFamily.DIALECT: dialect,
               speechserver.VoiceFamily.LOCALE: lang})]
         for voice in list_synthesis_voices:
+            dialect = None
+            identifier = voice.identifier.split('/')[-1].split('-')
+            locale = identifier[0]
+            try:
+                dialect = identifier[1]
+            except IndexError:
+                dialect = None
             families.append(speechserver.VoiceFamily({ \
                 speechserver.VoiceFamily.NAME: voice.name,
-                speechserver.VoiceFamily.DIALECT: voice.variant,
-                speechserver.VoiceFamily.LOCALE: voice.identifier.split("/")[-1]}))
+                speechserver.VoiceFamily.DIALECT: dialect,
+                speechserver.VoiceFamily.LOCALE: locale}))
         return families
 
     def speak(self, text=None, acss=None, interrupt=True):
