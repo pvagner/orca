@@ -31,7 +31,6 @@ __license__   = "LGPL"
 from gi.repository import GLib
 import re
 import time
-import os.path
 
 from . import chnames
 from . import debug
@@ -58,6 +57,8 @@ minRate=80
 maxRate=450
 minPitch=0
 maxPitch=99
+minVolume=0
+maxVolume=200
 
 class SpeechServer(speechserver.SpeechServer):
     # See the parent class for documentation.
@@ -194,7 +195,7 @@ class SpeechServer(speechserver.SpeechServer):
         espeak.set_parameter(espeak.Parameter.Pitch, pitch, 0)
 
     def _set_volume(self, acss_volume):
-        volume = int(acss_volume *10)
+        volume = self._percentToParam((acss_volume *10), minVolume, maxVolume)
         espeak.set_parameter(espeak.Parameter.Volume, volume, 0)
 
     def _set_family(self, acss_family):
