@@ -2478,6 +2478,26 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         self.prefsDict["enableProgressBarUpdates"] = enable
         self.get_widget("progressBarUpdatesOptionsGrid").set_sensitive(enable)
 
+    def speakProgressBarChecked(self, widget):
+        """Signal handler for the "toggled" signal for the
+           speakProgressBarCheckButton GtkCheckButton widget.
+           The user has [un]checked the "Speak progress bar updates" checkbox.
+           Set the 'progressBarSpeak' preference to the new value.
+        Arguments:
+        - widget: the component that generated the signal.
+        """
+        self.prefsDict["progressBarSpeak"] = widget.get_active()
+
+    def beepProgressBarChecked(self, widget):
+        """Signal handler for the "toggled" signal for the
+           speakProgressBarCheckButton GtkCheckButton widget.
+           The user has [un]checked the "Speak progress bar updates" checkbox.
+           Set the 'progressBarBeep' preference to the new value.
+        Arguments:
+        - widget: the component that generated the signal.
+        """
+        self.prefsDict["progressBarBeep"] = widget.get_active()
+
     def speakProgressBarValueChanged(self, widget):
         """Signal handler for the "value_changed" signal for the
            speakProgressBarSpinButton GtkSpinButton widget.
