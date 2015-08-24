@@ -114,6 +114,8 @@ userCustomizableSettings = [
     "structNavTriggersFocusMode",
     "caretNavTriggersFocusMode",
     "layoutMode",
+    "progressBarSpeak",
+    "progressBarBeep",
 ]
 
 GENERAL_KEYBOARD_LAYOUT_DESKTOP = 1
@@ -255,6 +257,8 @@ mouseDwellMaxDrift         = 3
 
 # Progressbars
 enableProgressBarUpdates   = True
+progressBarBeep            = False
+progressBarSpeak           = True
 progressBarUpdateInterval  = 10
 progressBarVerbosity       = PROGRESS_BAR_APPLICATION
 
