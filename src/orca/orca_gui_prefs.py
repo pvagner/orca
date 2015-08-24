@@ -1413,11 +1413,12 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         #
         enable = prefs["enableProgressBarUpdates"]
         self.get_widget("speechProgressBarCheckButton").set_active(enable)
-        self.get_widget("progressBarUpdatesOptionsGrid").set_sensitive(enable)
+        self.get_widget("speakProgressBarCheckButton").set_active(prefs["progressBarSpeak"])
+        self.get_widget("beepProgressBarCheckButton").set_active(prefs["progressBarBeep"])
+        self.get_widget("progressBarUpdatesOptionsGrid").set_sensitive(prefs["progressBarSpeak"])
 
         interval = prefs["progressBarUpdateInterval"]
         self.get_widget("speakProgressBarSpinButton").set_value(interval)
-
         comboBox = self.get_widget("progressBarVerbosity")
         levels = [guilabels.PROGRESS_BAR_ALL,
                   guilabels.PROGRESS_BAR_APPLICATION,
