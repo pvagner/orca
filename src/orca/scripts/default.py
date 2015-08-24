@@ -50,6 +50,7 @@ import orca.orca as orca
 import orca.orca_gui_commandlist as commandlist
 import orca.orca_state as orca_state
 import orca.phonnames as phonnames
+import orca.sound_utils as sound_utils
 import orca.script as script
 import orca.settings as settings
 import orca.settings_manager as settings_manager
@@ -91,6 +92,9 @@ class Script(script.Script):
         self.flatReviewContext  = None
         self.windowActivateTime = None
         self.targetCursorCell = None
+        
+        self.sound = sound_utils.SoundUtils()
+        self.sound.createSimpePipeline()
 
         self.justEnteredFlatReviewMode = False
 
@@ -3276,36 +3280,49 @@ class Script(script.Script):
                 percentValue = int((value.currentValue / \
                     (value.maximumValue - value.minimumValue)) * 100.0)
 
-                if (currentTime - lastProgressBarTime) > \
+                if _settingsManager.getSetting('progressBarBeep'): 
+                    if self.lastProgressBarValue != percentValue:
+                        if percentValue < 7:
+                            self.sound.source_set_property('freq', int((98 + percentValue * 4 * 1.35)))
+                            self.sound._threadSound (0.075)
+                        else:
+                            self.sound.source_set_property('freq', int(19 * percentValue * 1.15))
+                            self.sound.source_set_property('volume', 1 - (percentValue / 130))
+                            if percentValue >= 99:
+                                self.sound._threadSound (1)
+                            else:
+                                self.sound._threadSound (0.075)
+                if _settingsManager.getSetting('progressBarSpeak'):
+                    if (currentTime - lastProgressBarTime) > \
                       _settingsManager.getSetting('progressBarUpdateInterval') \
-                   or percentValue == 100:
-                    if lastProgressBarValue != percentValue:
-                        utterances = []
+                      or (percentValue == 100):
+                        if lastProgressBarValue != percentValue:
+                            utterances = []
 
-                        # There may be cases when more than one progress
-                        # bar is updating at the same time in a window.
-                        # If this is the case, then speak the index of this
-                        # progress bar in the dictionary of known progress
-                        # bars, as well as the value. But only speak the
-                        # index if this progress bar was not the most
-                        # recently updated to prevent chattiness.
-                        #
-                        if len(self.lastProgressBarTime) > 1:
-                            index = 0
-                            for key in list(self.lastProgressBarTime.keys()):
-                                if key == obj and key != mostRecentUpdate[0]:
-                                    label = messages.PROGRESS_BAR_NUMBER % (index + 1)
-                                    utterances.append(label)
-                                else:
-                                    index += 1
+                            # There may be cases when more than one progress
+                            # bar is updating at the same time in a window.
+                            # If this is the case, then speak the index of this
+                            # progress bar in the dictionary of known progress
+                            # bars, as well as the value. But only speak the
+                            # index if this progress bar was not the most
+                            # recently updated to prevent chattiness.
+                            if len(self.lastProgressBarTime) > 1:
+                                index = 0
+                                for key in list(self.lastProgressBarTime.keys()):
+                                    if key == obj and key != mostRecentUpdate[0]:
+                                        label = messages.PROGRESS_BAR_NUMBER % (index + 1)
+                                        utterances.append(label)
+                                    else:
+                                        index += 1
 
-                        utterances.extend(self.speechGenerator.generateSpeech(
-                            obj, alreadyFocused=True))
+                            utterances.extend(self.speechGenerator.generateSpeech(
+                                obj, alreadyFocused=True))
 
-                        speech.speak(utterances)
+                            speech.speak(utterances)
+                            self.lastProgressBarTime[obj] = currentTime
 
-                        self.lastProgressBarTime[obj] = currentTime
-                        self.lastProgressBarValue[obj] = percentValue
+                if lastProgressBarValue != percentValue:
+                    self.lastProgressBarValue[obj] = percentValue
 
     def presentToolTip(self, obj):
         """
