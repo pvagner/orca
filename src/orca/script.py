@@ -39,8 +39,6 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import imp
-import importlib
 import pyatspi
 
 from . import braille_generator
@@ -309,26 +307,6 @@ class Script:
         """
 
         _eventManager.deregisterScriptListeners(self)
-
-    def getSettings(self):
-        """Returns the settings associated with this script, regardless of
-        whether or not the script is active.
-        """
-
-        scriptSettings = settings
-        if orca_state.activeScript != self:
-            name = _scriptManager.getModuleName(self.app)
-            if name:
-                for package in _settingsManager.settingsPackages:
-                    name = package + "." + name
-                    try:
-                        module = importlib.import_module(name)
-                        imp.reload(module)
-                        scriptSettings = module.orca.settings
-                    except:
-                        pass
-
-        return scriptSettings
 
     # [[[WDW - There is a circular reference going on somewhere (see
     # bug 333168).  In the presence of this reference, the existence

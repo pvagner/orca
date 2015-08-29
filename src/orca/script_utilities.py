@@ -1231,7 +1231,13 @@ class Utilities:
     @staticmethod
     def isTableRow(obj):
         """Determines if obj is a table row -- real or functionally."""
-        if not (obj and obj.parent and obj.childCount):
+
+        try:
+            if not (obj and obj.parent and obj.childCount):
+                return False
+        except:
+            msg = "INFO: Exception getting parent and childCount for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg)
             return False
 
         role = obj.getRole()
@@ -2906,7 +2912,12 @@ class Utilities:
         if isSame(root):
             replicant = root
         else:
-            replicant = pyatspi.findDescendant(root, isSame)
+            try:
+                replicant = pyatspi.findDescendant(root, isSame)
+            except:
+                msg = "INFO: Exception from findDescendant for %s" % root
+                debug.println(debug.LEVEL_INFO, msg)
+                replicant = None
 
         msg = "HACK: Returning %s as replicant for Zombie %s" % (replicant, obj)
         debug.println(debug.LEVEL_INFO, msg)
