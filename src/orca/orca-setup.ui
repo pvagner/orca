@@ -1547,45 +1547,24 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
-                                      <object class="GtkCheckButton" id="speechProgressBarCheckButton">
-                                        <property name="label" translatable="yes" context="ProgressBarUpdates" comments="Translators: This is an option in the Preferences dialog box related to the speaking of progress bar information. If checked, Orca will speak progress bar information.">Enable_d</property>
-                                        <property name="use_action_appearance">False</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="valign">start</property>
-                                        <property name="hexpand">True</property>
-                                        <property name="use_underline">True</property>
-                                        <property name="xalign">0.5</property>
-                                        <property name="active">True</property>
-                                        <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="speechProgressBarChecked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">0</property>
-                                        <property name="top_attach">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkGrid" id="progressBarUpdatesOptionsGrid">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
-                                          <object class="GtkComboBox" id="progressBarVerbosity">
+                                          <object class="GtkSpinButton" id="speakProgressBarSpinButton">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="model">model7</property>
-                                            <signal name="changed" handler="progressBarVerbosityChanged" swapped="no"/>
-                                            <child>
-                                              <object class="GtkCellRendererText" id="renderer33"/>
-                                              <attributes>
-                                                <attribute name="text">0</attribute>
-                                              </attributes>
-                                            </child>
+                                            <property name="can_focus">True</property>
+                                            <property name="invisible_char">●</property>
+                                            <property name="adjustment">adjustment4</property>
+                                            <property name="climb_rate">1</property>
+                                            <property name="numeric">True</property>
+                                            <signal name="value-changed" handler="speakProgressBarValueChanged" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="top_attach">2</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="width">1</property>
+                                            <property name="height">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1648,11 +1627,12 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="progressBarUpdateTypeLabel">
+                                          <object class="GtkLabel" id="speakProgressBarLabel">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes" comments="Translators: Orca has a setting which determines which progress bar updates should be announced. The options are all progress bars, only progress bars in the active application, or only progress bars in the current window.">Type:</property>
+                                            <property name="label" translatable="yes" context="ProgressBar" comments="Translators: Here this is a label for a spin button through which a user can customize the frequency in seconds an announcement should be made regarding the current value of a progress bar.">Frequency (secs):</property>
                                             <property name="use_underline">True</property>
+                                            <property name="mnemonic_widget">speakProgressBarSpinButton</property>
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
@@ -1663,7 +1643,67 @@
                                       </object>
                                       <packing>
                                         <property name="left_attach">0</property>
+                                        <property name="top_attach">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="beepProgressBarCheckButton">
+                                        <property name="label" translatable="yes" context="ProgressBarUpdates" comments="Translators: This is an option in the Preferences dialog box related to the speaking of progress bar information. If checked, Orca will speak progress bar information.">Be_ll a Peep per Percent</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="valign">start</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="xalign">0.5</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="beepProgressBarChecked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
                                         <property name="top_attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="speechProgressBarCheckButton">
+                                        <property name="label" translatable="yes" context="ProgressBarUpdates" comments="Translators: This is an option in the Preferences dialog box related to the speaking of progress bar information. If checked, Orca will speak progress bar information.">Enable_d</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="valign">start</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="speechProgressBarChecked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="speakProgressBarCheckButton">
+                                        <property name="label" translatable="yes" context="ProgressBarUpdates" comments="Translators: This is an option in the Preferences dialog box related to the speaking of progress bar information. If checked, Orca will speak progress bar information.">Announce per_cent every frequency</property>
+                                        <property name="use_action_appearance">False</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="valign">start</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="speakProgressBarChecked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">2</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -2983,3 +3023,4 @@
     </action-widgets>
   </object>
 </interface>
+

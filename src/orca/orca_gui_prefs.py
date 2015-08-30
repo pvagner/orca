@@ -1413,11 +1413,12 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         #
         enable = prefs["enableProgressBarUpdates"]
         self.get_widget("speechProgressBarCheckButton").set_active(enable)
-        self.get_widget("progressBarUpdatesOptionsGrid").set_sensitive(enable)
+        self.get_widget("speakProgressBarCheckButton").set_active(prefs["progressBarSpeak"])
+        self.get_widget("beepProgressBarCheckButton").set_active(prefs["progressBarBeep"])
+        self.get_widget("progressBarUpdatesOptionsGrid").set_sensitive(prefs["progressBarSpeak"])
 
         interval = prefs["progressBarUpdateInterval"]
         self.get_widget("speakProgressBarSpinButton").set_value(interval)
-
         comboBox = self.get_widget("progressBarVerbosity")
         levels = [guilabels.PROGRESS_BAR_ALL,
                   guilabels.PROGRESS_BAR_APPLICATION,
@@ -2504,6 +2505,26 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         enable = widget.get_active()
         self.prefsDict["enableProgressBarUpdates"] = enable
         self.get_widget("progressBarUpdatesOptionsGrid").set_sensitive(enable)
+
+    def speakProgressBarChecked(self, widget):
+        """Signal handler for the "toggled" signal for the
+           speakProgressBarCheckButton GtkCheckButton widget.
+           The user has [un]checked the "Speak progress bar updates" checkbox.
+           Set the 'progressBarSpeak' preference to the new value.
+        Arguments:
+        - widget: the component that generated the signal.
+        """
+        self.prefsDict["progressBarSpeak"] = widget.get_active()
+
+    def beepProgressBarChecked(self, widget):
+        """Signal handler for the "toggled" signal for the
+           speakProgressBarCheckButton GtkCheckButton widget.
+           The user has [un]checked the "Speak progress bar updates" checkbox.
+           Set the 'progressBarBeep' preference to the new value.
+        Arguments:
+        - widget: the component that generated the signal.
+        """
+        self.prefsDict["progressBarBeep"] = widget.get_active()
 
     def speakProgressBarValueChanged(self, widget):
         """Signal handler for the "value_changed" signal for the

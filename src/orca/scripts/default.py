@@ -92,8 +92,10 @@ class Script(script.Script):
         self.flatReviewContext  = None
         self.windowActivateTime = None
         self.targetCursorCell = None
+
         self.sound = sound_utils.SoundUtils()
         self.sound.createSimpePipeline()
+
         self.justEnteredFlatReviewMode = False
 
         self.digits = '0123456789'
@@ -3265,22 +3267,20 @@ class Script(script.Script):
                     return
                 percentValue = int((value.currentValue / \
                     (value.maximumValue - value.minimumValue)) * 100.0)
-                    
-                if _settingsManager.getSetting('progressBarUpdateType') == settings.PROGRESS_BAR_TYPE_TICK: 
+
+                if _settingsManager.getSetting('progressBarBeep'): 
                     if self.lastProgressBarValue != percentValue:
                         if percentValue < 7:
                             self.sound.source_set_property('freq', int((98 + percentValue * 4 * 1.35)))
-                            self.sound._threadSound (0.1)
+                            self.sound._threadSound (0.075)
                         else:
                             self.sound.source_set_property('freq', int(19 * percentValue * 1.15))
                             self.sound.source_set_property('volume', 1 - (percentValue / 130))
                             if percentValue >= 99:
                                 self.sound._threadSound (1)
                             else:
-                                self.sound._threadSound (0.1)
-                        self.lastProgressBarTime[obj] = currentTime
-                        self.lastProgressBarValue[obj] = percentValue
-                elif _settingsManager.getSetting('progressBarUpdateType') == settings.PROGRESS_BAR_TYPE_SPEAK:
+                                self.sound._threadSound (0.075)
+                if _settingsManager.getSetting('progressBarSpeak'):
                     if (currentTime - lastProgressBarTime) > \
                       _settingsManager.getSetting('progressBarUpdateInterval') \
                       or (percentValue == 100):
@@ -3307,8 +3307,10 @@ class Script(script.Script):
                                 obj, alreadyFocused=True))
 
                             speech.speak(utterances)
-                        self.lastProgressBarTime[obj] = currentTime
-                        self.lastProgressBarValue[obj] = percentValue
+                            self.lastProgressBarTime[obj] = currentTime
+
+                if lastProgressBarValue != percentValue:
+                    self.lastProgressBarValue[obj] = percentValue
 
     def presentToolTip(self, obj):
         """
