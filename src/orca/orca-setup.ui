@@ -1581,34 +1581,6 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="speakProgressBarSpinButton">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="invisible_char">●</property>
-                                            <property name="adjustment">adjustment4</property>
-                                            <property name="climb_rate">1</property>
-                                            <property name="numeric">True</property>
-                                            <signal name="value-changed" handler="speakProgressBarValueChanged" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="top_attach">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="speakProgressBarLabel">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes" context="ProgressBar" comments="Translators: Here this is a label for a spin button through which a user can customize the frequency in seconds an announcement should be made regarding the current value of a progress bar.">Frequency (secs):</property>
-                                            <property name="use_underline">True</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="left_attach">0</property>
-                                            <property name="top_attach">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkComboBox" id="progressBarUpdateType">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
