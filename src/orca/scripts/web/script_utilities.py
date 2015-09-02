@@ -67,6 +67,7 @@ class Utilities(script_utilities.Utilities):
         self._inferredLabels = {}
         self._text = {}
         self._tag = {}
+        self._treatAsDiv = {}
         self._currentObjectContents = None
         self._currentSentenceContents = None
         self._currentLineContents = None
@@ -103,6 +104,7 @@ class Utilities(script_utilities.Utilities):
         self._isUselessImage = {}
         self._inferredLabels = {}
         self._tag = {}
+        self._treatAsDiv = {}
         self._cleanupContexts()
 
     def clearContentCache(self):
@@ -1159,6 +1161,12 @@ class Utilities(script_utilities.Utilities):
         debug.println(debug.LEVEL_INFO, msg)
 
         obj, offset = self.previousContext(firstObj, firstOffset, True)
+        if not obj and firstObj:
+            msg = "WEB: Previous context is: %s, %i. Trying again." % (obj, offset)
+            debug.println(debug.LEVEL_INFO, msg)
+            self.clearCachedObjects()
+            obj, offset = self.previousContext(firstObj, firstOffset, True)
+
         msg = "WEB: Previous context is: %s, %i" % (obj, offset)
         debug.println(debug.LEVEL_INFO, msg)
 
@@ -1197,6 +1205,12 @@ class Utilities(script_utilities.Utilities):
         debug.println(debug.LEVEL_INFO, msg)
 
         obj, offset = self.nextContext(lastObj, lastOffset, True)
+        if not obj and lastObj:
+            msg = "WEB: Next context is: %s, %i. Trying again." % (obj, offset)
+            debug.println(debug.LEVEL_INFO, msg)
+            self.clearCachedObjects()
+            obj, offset = self.nextContext(lastObj, lastOffset, True)
+
         msg = "WEB: Next context is: %s, %i" % (obj, offset)
         debug.println(debug.LEVEL_INFO, msg)
 
@@ -1301,6 +1315,26 @@ class Utilities(script_utilities.Utilities):
             rv = False
 
         self._isTextBlockElement[hash(obj)] = rv
+        return rv
+
+    def treatAsDiv(self, obj):
+        rv = self._treatAsDiv.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        try:
+            role = obj.getRole()
+            childCount = obj.childCount
+        except:
+            msg = "WEB: Exception getting role and childCount for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg)
+            return False
+
+        rv = False
+        if role == pyatspi.ROLE_LIST:
+            rv = not (childCount and obj[0].getRole() == pyatspi.ROLE_LIST_ITEM)
+
+        self._treatAsDiv[hash(obj)] = rv
         return rv
 
     def speakMathSymbolNames(self, obj=None):
