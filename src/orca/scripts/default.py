@@ -92,7 +92,7 @@ class Script(script.Script):
         self.flatReviewContext  = None
         self.windowActivateTime = None
         self.targetCursorCell = None
-
+        
         self.sound = sound_utils.SoundUtils()
         self.sound.createSimpePipeline()
 
